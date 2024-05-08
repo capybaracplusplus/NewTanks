@@ -5,6 +5,7 @@
 #include <map>
 #include <windows.h>
 
+//  угабуга
 
 struct Position {
     int x;
