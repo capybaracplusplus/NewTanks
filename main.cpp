@@ -96,12 +96,13 @@ int main() {
     player_1.position.x = 10;
     player_1.position.y = 5;
 
+    std::vector<std::vector<tile>> render(60, std::vector<tile> (60));
 
     int menu;
     std::cout << "1. play" << "\n" << "2. rules" << "\n" << "3. exit" << "\n" << "\n" << "select: ";
     std::cin >> menu;
     std::cout << "\n";
-    std::vector<std::vector<tile>> render(60, std::vector<tile> (60));
+
     switch (menu) {
         case (1): {
             for (int i = 0; i < 60; i++) {
@@ -134,40 +135,6 @@ int main() {
             break;
         }
     }
-
-
-
-
-
-
-     /*
-
-     = "[ ";    left_caterpillar
-     = " ]";    right_caterpillar
-     = "||";    double_up
-     = "()";    tower
-     = "__";    lower_stroke
-     = "==";    double_equally
-     = "--";    hight_stroke
-
-
-      [ || ]
-      [ () ]
-      [ __ ]
-
-      [ -- ]
-      [ () ]
-      [ || ]
-
-      ------
-      ||()==
-      ------
-
-      ------
-      ==()||
-      ------
-
-    */
 
     return 0;
 }
