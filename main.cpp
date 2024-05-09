@@ -81,14 +81,14 @@ tile tank_right[3][3] = {
         {tile::hight_stroke, tile::hight_stroke, tile::hight_stroke}
 };
 
-
+/*
 void gotoxy(int xpos, int ypos) {
     COORD scrn;
     HANDLE hOuput = GetStdHandle(STD_OUTPUT_HANDLE);
     scrn.X = xpos; scrn.Y = ypos;
     SetConsoleCursorPosition(hOuput, scrn);
 }
-
+*/
 
 void rendering(std::vector<std::vector<tile>> render) {
     for (int i = 0; i < 60; ++i) {
@@ -132,6 +132,27 @@ void tank_render_right(Player Player, std::vector<std::vector<tile>> & render) {
     }
 }
 
+
+/*
+ void move_up ();
+ void move_down ();
+ void move_left ();
+ void move_right ();
+ */
+
+/*
+ void move_up (Player Player, std::vector<std::vector<tile>> & render) {
+     if (Player.position.y > 2) {
+         // поле 60 на 60 клетки 3 на 3 тогда итог 20 на 20
+        // проверить на то нет ли сверху препятствий
+        if (render[Player.position.x][Player.position.y + 1] == tile::ground ||
+            render[Player.position.x][Player.position.y + 1] == tile::bush) {
+            // добавить стирание страго места танка
+            Player.position.y += 3;
+        }
+     }
+ }
+ */
 
 
 int main() {
