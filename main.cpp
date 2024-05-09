@@ -66,6 +66,14 @@ tile tank_up[3][3] = {
     {tile::left_caterpillar, tile::lower_stroke, tile::right_caterpillar}
 };
 
+void gotoxy(int xpos, int ypos) {
+    COORD scrn;
+    HANDLE hOuput = GetStdHandle(STD_OUTPUT_HANDLE);
+    scrn.X = xpos; scrn.Y = ypos;
+    SetConsoleCursorPosition(hOuput, scrn);
+}
+
+
 void rendering(std::vector<std::vector<tile>> render) {
     for (int i = 0; i < 60; ++i) {
         for (int j = 0; j < 60; j++) {
@@ -93,20 +101,40 @@ int main() {
     player_1.position.y = 5;
 
 
+    int menu;
+    std::cout << "1. play" << "\n" << "2. rules" << "\n" << "3. exit" << "\n" << "\n" << "select: ";
+    std::cin >> menu;
+    std::cout << "\n";
     std::vector<std::vector<tile>> render(60, std::vector<tile> (60));
-
-    for (int i = 0; i < 60; i++) {
-         render.push_back({});
-         for (int j = 0; j < 60; j++) {
-             render[i].push_back(tile::ground);
-         }
-     }
-    bool game{ true };
-    while (game) {
-        Sleep(500);
-        system("cls");
-        tank_render(player_1, render);
-        rendering(render);
+    switch (menu) {
+        case (1): {
+            for (int i = 0; i < 60; i++) {
+                render.push_back({});
+                for (int j = 0; j < 60; j++) {
+                    render[i].push_back(tile::ground);
+                }
+            }
+            bool game{true};
+            while (game) {
+                Sleep(500);
+                system("cls");
+                tank_render(player_1, render);
+                rendering(render);
+            }
+            break;
+        }
+        case (2): {
+            system("color 5" );
+            std::cout << "rules";
+            break;
+        }
+        case (3):
+            break;
+        default: {
+            system("color 4" );
+            std::cout << "error, please select an option from the list";
+            break;
+        }
     }
 
 
