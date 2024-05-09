@@ -5,10 +5,6 @@
 #include <map>
 #include <windows.h>
 
-// 1111111
-
-
-
 struct Position {
     int x;
     int y;
