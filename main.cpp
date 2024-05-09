@@ -30,13 +30,13 @@ enum tile {
     bush, // куст
     river, // река
     base, // база игрока
-    left_caterpillar,
-    right_caterpillar,
-    double_up,
-    tower,
-    lower_stroke,
-    double_equally,
-    hight_stroke,
+    left_caterpillar, // левая гусеница
+    right_caterpillar, // правая гусеница
+    double_up, // часть такнка
+    tower, // башня танка
+    lower_stroke, // часть такнка
+    double_equally, // часть такнка
+    hight_stroke, // часть такнка
 };
 
 std::map<tile, std::string> map_tile = {
@@ -56,11 +56,31 @@ std::map<tile, std::string> map_tile = {
         {tile::hight_stroke, "--"},
 };
 
+// tank in position - tower looking up
 tile tank_up[3][3] = {
     {tile::left_caterpillar, tile::double_up, tile::right_caterpillar},
     {tile::left_caterpillar, tile::tower, tile::right_caterpillar},
     {tile::left_caterpillar, tile::lower_stroke, tile::right_caterpillar}
 };
+
+tile tank_down[3][3] = {
+        {tile::left_caterpillar, tile::hight_stroke, tile::right_caterpillar},
+        {tile::left_caterpillar, tile::tower, tile::right_caterpillar},
+        {tile::left_caterpillar, tile::double_up, tile::right_caterpillar}
+};
+
+tile tank_left[3][3] = {
+        {tile::hight_stroke, tile::hight_stroke, tile::hight_stroke},
+        {tile::double_equally, tile::tower, tile::double_up},
+        {tile::hight_stroke, tile::hight_stroke, tile::hight_stroke}
+};
+
+tile tank_right[3][3] = {
+        {tile::hight_stroke, tile::hight_stroke, tile::hight_stroke},
+        {tile::double_up, tile::tower, tile::double_equally},
+        {tile::hight_stroke, tile::hight_stroke, tile::hight_stroke}
+};
+
 
 void gotoxy(int xpos, int ypos) {
     COORD scrn;
@@ -79,7 +99,8 @@ void rendering(std::vector<std::vector<tile>> render) {
     }
 }
 
-void tank_render(Player Player, std::vector<std::vector<tile>> & render) {
+// displaying the tank on the screen in a certain position (up)
+void tank_render_up(Player Player, std::vector<std::vector<tile>> & render) {
     for (int y = Player.position.y; y < Player.position.y + 3; y++) {
         for (int x = Player.position.x; x < Player.position.x + 3; x++) {
             render[y][x] = tank_up[y - Player.position.y][x - Player.position.x];
@@ -87,9 +108,33 @@ void tank_render(Player Player, std::vector<std::vector<tile>> & render) {
     }
 }
 
+void tank_render_down(Player Player, std::vector<std::vector<tile>> & render) {
+    for (int y = Player.position.y; y < Player.position.y + 3; y++) {
+        for (int x = Player.position.x; x < Player.position.x + 3; x++) {
+            render[y][x] = tank_down[y - Player.position.y][x - Player.position.x];
+        }
+    }
+}
+
+void tank_render_left(Player Player, std::vector<std::vector<tile>> & render) {
+    for (int y = Player.position.y; y < Player.position.y + 3; y++) {
+        for (int x = Player.position.x; x < Player.position.x + 3; x++) {
+            render[y][x] = tank_left[y - Player.position.y][x - Player.position.x];
+        }
+    }
+}
+
+void tank_render_right(Player Player, std::vector<std::vector<tile>> & render) {
+    for (int y = Player.position.y; y < Player.position.y + 3; y++) {
+        for (int x = Player.position.x; x < Player.position.x + 3; x++) {
+            render[y][x] = tank_right[y - Player.position.y][x - Player.position.x];
+        }
+    }
+}
+
+
 
 int main() {
-
 
     Player player_1 = {};
     player_1.position = {};
@@ -115,7 +160,7 @@ int main() {
             while (game) {
                 Sleep(500);
                 system("cls");
-                tank_render(player_1, render);
+                tank_render_up(player_1, render);
                 rendering(render);
             }
             break;
