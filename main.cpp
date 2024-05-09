@@ -121,7 +121,9 @@ int main() {
         }
         case (2): {
             system("color 5" );
-            std::cout << "rules";
+            std::cout << " In a two-player game, the first player holds the center and left flank, while the second \n"
+                         " player holds the right flank. When playing alone, you will either have to actively rush \n"
+                         " around the map or take a defensive position near the headquarters.";
             break;
         }
         case (3):
