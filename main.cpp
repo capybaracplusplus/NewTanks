@@ -5,6 +5,7 @@
 #include <map>
 #include <windows.h>
 
+
 struct Position {
     int x;
     int y;
@@ -46,7 +47,6 @@ std::map<tile, std::string> map_tile = {
         {tile::bush, "░░"},
         {tile::river, "~~"},
         {tile::base, "<>"},
-
         {tile::left_caterpillar, "[ "},
         {tile::right_caterpillar, " ]"},
         {tile::double_up, "||"},
@@ -81,23 +81,29 @@ tile tank_right[3][3] = {
         {tile::hight_stroke, tile::hight_stroke, tile::hight_stroke}
 };
 
-/*
+tile true_ground[3][3] = {
+        {tile::ground, tile::ground, tile::ground},
+        {tile::ground, tile::ground, tile::ground},
+        {tile::ground, tile::ground, tile::ground}
+};
+
+
 void gotoxy(int xpos, int ypos) {
     COORD scrn;
     HANDLE hOuput = GetStdHandle(STD_OUTPUT_HANDLE);
     scrn.X = xpos; scrn.Y = ypos;
     SetConsoleCursorPosition(hOuput, scrn);
-}
-*/
+};
+
 
 void rendering(std::vector<std::vector<tile>> render) {
-    for (int i = 0; i < 60; ++i) {
-        for (int j = 0; j < 60; j++) {
+    for (int i = 0; i < 63; ++i) {
+        for (int j = 0; j < 63; j++) {
             std::cout << map_tile[render[i][j]];
         }
             std::cout << std::endl;
     }
-}
+};
 
 // displaying the tank on the screen in a certain position (up)
 void tank_render_up(Player Player, std::vector<std::vector<tile>> & render) {
@@ -106,7 +112,7 @@ void tank_render_up(Player Player, std::vector<std::vector<tile>> & render) {
             render[y][x] = tank_up[y - Player.position.y][x - Player.position.x];
         }
     }
-}
+};
 
 void tank_render_down(Player Player, std::vector<std::vector<tile>> & render) {
     for (int y = Player.position.y; y < Player.position.y + 3; y++) {
@@ -114,7 +120,7 @@ void tank_render_down(Player Player, std::vector<std::vector<tile>> & render) {
             render[y][x] = tank_down[y - Player.position.y][x - Player.position.x];
         }
     }
-}
+};
 
 void tank_render_left(Player Player, std::vector<std::vector<tile>> & render) {
     for (int y = Player.position.y; y < Player.position.y + 3; y++) {
@@ -122,7 +128,7 @@ void tank_render_left(Player Player, std::vector<std::vector<tile>> & render) {
             render[y][x] = tank_left[y - Player.position.y][x - Player.position.x];
         }
     }
-}
+};
 
 void tank_render_right(Player Player, std::vector<std::vector<tile>> & render) {
     for (int y = Player.position.y; y < Player.position.y + 3; y++) {
@@ -130,8 +136,15 @@ void tank_render_right(Player Player, std::vector<std::vector<tile>> & render) {
             render[y][x] = tank_right[y - Player.position.y][x - Player.position.x];
         }
     }
-}
+};
 
+void delete_tank(Player Player, std::vector<std::vector<tile>> & render) {
+    for (int y = Player.position.y; y < Player.position.y + 3; y++) {
+        for (int x = Player.position.x; x < Player.position.x + 3; x++) {
+            render[y][x] = true_ground[y - Player.position.y][x - Player.position.x];
+        }
+    }
+};
 
 /*
  void move_up ();
@@ -143,7 +156,7 @@ void tank_render_right(Player Player, std::vector<std::vector<tile>> & render) {
 /*
  void move_up (Player Player, std::vector<std::vector<tile>> & render) {
      if (Player.position.y > 2) {
-         // поле 60 на 60 клетки 3 на 3 тогда итог 20 на 20
+         // поле 39 на 39 клетки 3 на 3 тогда итог 13 на 13
         // проверить на то нет ли сверху препятствий
         if (render[Player.position.x][Player.position.y + 1] == tile::ground ||
             render[Player.position.x][Player.position.y + 1] == tile::bush) {
@@ -162,7 +175,11 @@ int main() {
     player_1.position.x = 10;
     player_1.position.y = 5;
 
-    std::vector<std::vector<tile>> render(60, std::vector<tile> (60));
+    // размер поля 21 на 21 клеток 3 на 3
+    std::vector<std::vector<tile>> render(63, std::vector<tile> (63));
+
+
+    //  std::vector<std::vector<tile>> map_test(63, std::vector<tile> (63));
 
     int menu;
     std::cout << "1. play" << "\n" << "2. rules" << "\n" << "3. exit" << "\n" << "\n" << "select: ";
@@ -171,9 +188,10 @@ int main() {
 
     switch (menu) {
         case (1): {
-            for (int i = 0; i < 60; i++) {
+            gotoxy(0,0);
+            for (int i = 0; i < 63; i++) {
                 render.push_back({});
-                for (int j = 0; j < 60; j++) {
+                for (int j = 0; j < 63; j++) {
                     render[i].push_back(tile::ground);
                 }
             }
@@ -181,8 +199,10 @@ int main() {
             while (game) {
                 Sleep(500);
                 system("cls");
+                gotoxy(0,0);
                 tank_render_up(player_1, render);
                 rendering(render);
+                delete_tank(player_1, render);
             }
             break;
         }
