@@ -178,8 +178,12 @@ int main() {
     // размер поля 21 на 21 клеток 3 на 3
     std::vector<std::vector<tile>> render(63, std::vector<tile> (63));
 
+    std::vector<std::vector<tile>> map_test(63, std::vector<tile> (63));
 
-    //  std::vector<std::vector<tile>> map_test(63, std::vector<tile> (63));
+    std::vector<std::vector<tile>> map_main(63, std::vector<tile> (63));
+
+    // заполение map_main из map_test либо любой другой
+    // map_main для опред грунт или курс
 
     int menu;
     std::cout << "1. play" << "\n" << "2. rules" << "\n" << "3. exit" << "\n" << "\n" << "select: ";
@@ -202,7 +206,7 @@ int main() {
                 gotoxy(0,0);
                 tank_render_up(player_1, render);
                 rendering(render);
-                delete_tank(player_1, render);
+                // delete_tank(player_1, render);
             }
             break;
         }
